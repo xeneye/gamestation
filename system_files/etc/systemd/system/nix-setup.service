@@ -8,7 +8,7 @@ ConditionPathExists=!/etc/systemd/system/nix-daemon.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/nix-setup.sh
+ExecStart=/var/usrlocal/bin/nix-setup.sh
 TimeoutStartSec=20min
 RemainAfterExit=yes
 

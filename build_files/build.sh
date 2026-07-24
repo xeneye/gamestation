@@ -121,8 +121,12 @@ dnf5 install -y \
 ################################
 
 mkdir -p /nix
+mkdir -p /nix
 mkdir -p /var/usrlocal/bin
-install -m755 /ctx/scripts/nix-setup.sh /var/usrlocal/bin/nix-setup.sh
+
+install -v -m755 \
+    /ctx/scripts/nix-setup.sh \
+    /var/usrlocal/bin/nix-setup.sh
 
 ################################
 # Enable services
