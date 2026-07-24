@@ -1,0 +1,16 @@
+[Unit]
+Description=Install Determinate Nix
+Documentation=https://determinate.systems/nix-installer
+After=network-online.target
+Wants=network-online.target
+
+ConditionPathExists=!/etc/systemd/system/nix-daemon.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/nix-setup.sh
+TimeoutStartSec=20min
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
