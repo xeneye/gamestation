@@ -4,6 +4,22 @@ set -ouex pipefail
 cp -avf "/ctx/system_files"/. /
 
 ################################
+# Remove Flatpaks
+################################
+
+# Remove all bundled system Flatpaks
+flatpak uninstall --all --system -y || true
+flatpak uninstall --unused --system -y || true
+
+# Remove Flatpak itself
+dnf remove -y flatpak
+
+# Remove the Flathub remote
+rm -f /etc/flatpak/remotes.d/flathub.flatpakrepo
+rm -rf /etc/flatpak
+rm -rf /var/lib/flatpak
+
+################################
 # Remove unwanted Bazzite packages
 ################################
 
@@ -22,7 +38,6 @@ dnf5 remove -y \
     mariadb-cracklib-password-check \
     mariadb-gssapi-server \
     bazaar \
-    krunner-bazaar \
     kde-connect \
     kdeconnectd \
     kde-connect-libs \
@@ -57,13 +72,9 @@ dnf5 install -y \
 systemctl enable podman.socket
 
 ################################
-# Kernel arguments
+# Blacklist HDMI audio
 ################################
 
-mkdir -p /usr/lib/bootc/kargs.d
-
-cat > /usr/lib/bootc/kargs.d/10-blacklist-hdmi.toml <<'EOF'
-kargs = [
-  "module_blacklist=snd_hda_intel"
-]
+cat > /usr/lib/modprobe.d/hdmi-blacklist.conf <<'EOF'
+blacklist snd_hda_intel
 EOF
