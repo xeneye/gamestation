@@ -6,3 +6,9 @@ dnf5 config-manager addrepo --from-repofile=https://brave-browser-rpm-release.s3
 dnf5 install -y brave-origin
 dnf5 install -y google-roboto-fonts google-roboto-mono-fonts nerd-fonts cascadia-fonts-all
 systemctl enable podman.socket
+mkdir -p /usr/lib/bootc/kargs.d
+cat > /usr/lib/bootc/kargs.d/10-blacklist_HDMI.toml << 'EOF'
+kargs = [
+  "module_blacklist=snd_hda_intel"
+]
+EOF
